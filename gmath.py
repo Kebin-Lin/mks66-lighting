@@ -51,7 +51,9 @@ def calculate_specular(light, sreflect, view, normal):
     ndotl = dot_product(normal, light[0])
     phatmult2 = [2 * ndotl * x for x in normal]
     rhat = [phatmult2[x] - light[0][x] for x in range(3)]
-    rdotvton = dot_product(rhat, view) ** SPECULAR_EXP
+    rdotv = dot_product(rhat, view)
+    if rdotv < 0: return [0,0,0]
+    rdotvton = rdotv ** SPECULAR_EXP
     return [light[1][x] * sreflect[x] * rdotvton for x in range(3)]
 
 def limit_color(color):
